@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% block title %}Puntos de Reciclaje - ECOCONNECT{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <!-- Header con estadísticas -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="eco-title"><i class="fas fa-recycle me-2"></i>Puntos de Reciclaje</h1>
+      <p class="text-muted">Encuentra y comparte lugares para reciclar en tu comunidad</p>
+    </div>
+    <a class="btn eco-btn-primary" href="{{ url_for('create') }}">
+      <i class="fas fa-plus me-1"></i>Agregar Punto
+    </a>
+  </div>
+
+  <!-- Tarjetas de puntos de reciclaje -->
+  <div class="row">
+    {% for d in datos %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="eco-card h-100">
+        <!-- Imagen del punto -->
+        <div class="eco-card-img-container">
+          {% if d.imagen %}
+            <img src="{{ url_for('static', filename='img/uploads/' + d.imagen) }}" class="eco-card-img" alt="{{ d.nombre }}">
+          {% else %}
+            <div class="eco-card-img-placeholder">
+              <i class="fas fa-recycle fa-3x"></i>
+            </div>
+          {% endif %}
+          <span class="eco-material-badge">{{ d.materiales|title }}</span>
+        </div>
+
+        <!-- Contenido de la tarjeta -->
+        <div class="eco-card-body">
+          <h5 class="eco-card-title">{{ d.nombre }}</h5>
+          <p class="eco-card-text">{{ d.descripcion[:100] }}{% if d.descripcion|length > 100 %}...{% endif %}</p>
+          
+          <div class="eco-card-info">
+            <div class="eco-info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <small>{{ d.direccion }}</small>
+            </div>
+            <div class="eco-info-item">
+              <i class="fas fa-clock"></i>
+              <small>{{ d.horarios }}</small>
+            </div>
+            {% if d.telefono %}
+            <div class="eco-info-item">
+              <i class="fas fa-phone"></i>
+              <small>{{ d.telefono }}</small>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="eco-card-actions">
+          <a class="btn eco-btn-outline btn-sm" href="{{ url_for('view', id=d._id) }}">
+            <i class="fas fa-eye me-1"></i>Ver
+          </a>
+          <a class="btn eco-btn-outline btn-sm" href="{{ url_for('edit', id=d._id) }}">
+            <i class="fas fa-edit me-1"></i>Editar
+          </a>
+          <form method="post" action="{{ url_for('delete', id=d._id) }}" style="display:inline" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este punto de reciclaje?');">
+            <button class="btn eco-btn-danger btn-sm" type="submit">
+              <i class="fas fa-trash me-1"></i>Eliminar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <!-- Estado vacío -->
+    <div class="col-12">
+      <div class="eco-empty-state text-center py-5">
+        <i class="fas fa-recycle fa-4x mb-3 text-muted"></i>
+        <h3 class="text-muted">No hay puntos de reciclaje registrados</h3>
+        <p class="text-muted">Sé el primero en agregar un punto de reciclaje a la comunidad</p>
+        <a class="btn eco-btn-primary" href="{{ url_for('create') }}">
+          <i class="fas fa-plus me-1"></i>Agregar Primer Punto
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Contador de puntos -->
+  {% if datos %}
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="eco-stats-card text-center">
+        <h4><i class="fas fa-leaf me-2"></i>Impacto Ecológico</h4>
+        <p class="mb-0">Tenemos <strong>{{ datos|length }}</strong> punto{{ 's' if datos|length != 1 }} de reciclaje registrado{{ 's' if datos|length != 1 }} en la comunidad</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

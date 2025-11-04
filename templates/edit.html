@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Editar Punto de Reciclaje - ECOCONNECT{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="eco-card">
+        <div class="eco-card-header">
+          <h2><i class="fas fa-edit me-2"></i>Editar Punto de Reciclaje</h2>
+          <p class="text-muted">Actualiza la información del punto ecológico</p>
+        </div>
+        
+        <form method="post" class="mt-4" enctype="multipart/form-data">
+          <div class="row">
+            <!-- Nombre del punto -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label eco-label">Nombre del Lugar*</label>
+              <input class="form-control eco-input" name="nombre" value="{{ dato.nombre }}" placeholder="Ej: Centro de Reciclaje Central" required>
+            </div>
+            
+            <!-- Tipo de materiales -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label eco-label">Tipo de Materiales Aceptados*</label>
+              <select class="form-select eco-input" name="materiales" required>
+                <option value="plastico" {% if dato.materiales == 'plastico' %}selected{% endif %}>Plástico</option>
+                <option value="vidrio" {% if dato.materiales == 'vidrio' %}selected{% endif %}>Vidrio</option>
+                <option value="papel" {% if dato.materiales == 'papel' %}selected{% endif %}>Papel y Cartón</option>
+                <option value="metal" {% if dato.materiales == 'metal' %}selected{% endif %}>Metales</option>
+                <option value="electronico" {% if dato.materiales == 'electronico' %}selected{% endif %}>Electrónicos</option>
+                <option value="multiple" {% if dato.materiales == 'multiple' %}selected{% endif %}>Múltiples Materiales</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dirección -->
+          <div class="mb-3">
+            <label class="form-label eco-label">Dirección Completa*</label>
+            <input class="form-control eco-input" name="direccion" value="{{ dato.direccion }}" placeholder="Ej: Av. Ecológica 123, Col. Verde" required>
+          </div>
+
+          <div class="row">
+            <!-- Horarios -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label eco-label">Horarios de Atención*</label>
+              <input class="form-control eco-input" name="horarios" value="{{ dato.horarios }}" placeholder="Ej: Lunes a Viernes 9:00 - 18:00" required>
+            </div>
+            
+            <!-- Teléfono -->
+            <div class="col-md-6 mb-3">
+              <label class="form-label eco-label">Teléfono de Contacto</label>
+              <input class="form-control eco-input" name="telefono" value="{{ dato.telefono }}" placeholder="Ej: 555-123-4567">
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="mb-3">
+            <label class="form-label eco-label">Descripción del Lugar*</label>
+            <textarea class="form-control eco-input" name="descripcion" rows="3" placeholder="Describe las instalaciones, servicios adicionales, etc..." required>{{ dato.descripcion }}</textarea>
+          </div>
+
+          <!-- Imagen -->
+          <div class="mb-3">
+            <label class="form-label eco-label">Imagen del Lugar</label>
+            <input type="file" class="form-control eco-input" name="imagen" accept="image/*">
+            <div class="form-text">
+              {% if dato.imagen %}
+                <i class="fas fa-image me-1"></i>Imagen actual: {{ dato.imagen }}
+              {% else %}
+                Sube una foto del punto de reciclaje (opcional)
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn eco-btn-primary">
+              <i class="fas fa-save me-1"></i>Actualizar Punto
+            </button>
+            <a class="btn eco-btn-secondary" href="{{ url_for('index') }}">
+              <i class="fas fa-times me-1"></i>Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
