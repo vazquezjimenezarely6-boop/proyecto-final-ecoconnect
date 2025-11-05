@@ -19,7 +19,7 @@ password = "admin1234"
 encoded_password = urllib.parse.quote_plus(password)
 
 # MONGO_URI con contraseña codificada
-MONGO_URI = f"mongodb+srv://{username}:{encoded_password}@cluster0.xxxxx.mongodb.net/ecoconnect_db?retryWrites=true&w=majority"
+MONGO_URI = f"mongodb+srv://vazquezjimenezarelycbtis272_db_user:admin1234@cluster0.xxxxx.mongodb.net/ecoconnect_db?retryWrites=true&w=majority"
 
 db = None
 try:
